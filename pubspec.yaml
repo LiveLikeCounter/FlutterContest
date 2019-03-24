@@ -48,7 +48,10 @@ flutter:
   assets:
     - assets/compass.jpg
     - assets/compass1.png
-    
+    - assets/icons/cross.svg
+    - assets/icons/islam.svg
+    - assets/icons/judaism.svg
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 
