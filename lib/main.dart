@@ -23,45 +23,21 @@ class _MyAppState extends State<MyApp> {
       math.cos(math.pi / 180 * (28.0827146)) * ((82.4138412) - (82.4112165));
   double angle;
 
-  final Widget faithIconCross = Container(
-    padding: EdgeInsets.all(12),
-    child: new SvgPicture.asset(
-      'assets/icons/cross.svg',
-      color: Colors.white,
-      semanticsLabel: 'A red up arrow',
-      fit: BoxFit.contain,
-    ),
-    decoration: new BoxDecoration(
-      color: Colors.blueAccent,
-      shape: BoxShape.circle,
-    ),
-  );
-  final Widget faithIconStar = Container(
-    padding: EdgeInsets.all(12),
-    child: new SvgPicture.asset(
-      'assets/icons/judaism.svg',
-      color: Colors.white,
-      semanticsLabel: 'A red up arrow',
-      fit: BoxFit.contain,
-    ),
-    decoration: new BoxDecoration(
-      color: Colors.blueAccent,
-      shape: BoxShape.circle,
-    ),
-  );
-  final Widget faithIconMoon = Container(
-    padding: EdgeInsets.all(12),
-    child: new SvgPicture.asset(
-      'assets/icons/islam.svg',
-      color: Colors.white,
-      semanticsLabel: 'A red up arrow',
-      fit: BoxFit.contain,
-    ),
-    decoration: new BoxDecoration(
-      color: Colors.blueAccent,
-      shape: BoxShape.circle,
-    ),
-  );
+  Widget getFaithIcon(String filename) {
+    return Container(
+      padding: EdgeInsets.all(12),
+      child: new SvgPicture.asset(
+        'assets/icons/$filename.svg',
+        color: Colors.white,
+        semanticsLabel: 'A red up arrow',
+        fit: BoxFit.contain,
+      ),
+      decoration: new BoxDecoration(
+        color: Colors.blueAccent,
+        shape: BoxShape.circle,
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -90,11 +66,11 @@ class _MyAppState extends State<MyApp> {
               Row(
                 children: <Widget>[
                   Spacer(),
-                  Expanded(child: faithIconCross),
+                  Expanded(child: getFaithIcon('cross')),
                   Spacer(),
-                  Expanded(child: faithIconStar),
+                  Expanded(child: getFaithIcon('judaism')),
                   Spacer(),
-                  Expanded(child: faithIconMoon),
+                  Expanded(child: getFaithIcon('islam')),
                   Spacer(),
                 ],
               ),
