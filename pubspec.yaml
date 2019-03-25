@@ -24,6 +24,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   flutter_compass:
+  flutter_svg: ^0.12.0
 
 dev_dependencies:
   flutter_test:
@@ -48,7 +49,10 @@ flutter:
   assets:
     - assets/compass.jpg
     - assets/compass1.png
-    
+    - assets/icons/cross.svg
+    - assets/icons/islam.svg
+    - assets/icons/judaism.svg
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 
