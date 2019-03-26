@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
       FlutterCompass.events.listen((double direction) {
         int star = getTargetOffsetAngle(direction, 'star');
         int moon = getTargetOffsetAngle(direction, 'moon');
-        print('>>> STAR: $star, MOON: $moon');
+        print('---> STAR: $star, MOON: $moon');
       });
     });
   }
