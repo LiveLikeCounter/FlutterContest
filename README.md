@@ -1,4 +1,4 @@
-# Flutter Prayer App
+# flutter_contest
 
 A new Flutter project.
 

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,16 +13,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  double _direction;
-//  double _lat1 = 36.778259;
-//  double lat2 = 27.950575;
-//  ouble _long1 = -119.417931;
-//  double long2 = -82.457176;
+  Position _localPosition;
+  Map<String, dynamic> _targetPositions = {
+    'star': {
+      'latitude': 31.77765,
+      'longitude': 35.23547,
+    },
+    'moon': {
+      'latitude': 21.3891,
+      'longitude': 39.8579,
+    },
+  };
 
-  double dy = 28.0834343 - 28.0827146;
-  double dx =
-      math.cos(math.pi / 180 * (28.0827146)) * ((82.4138412) - (82.4112165));
-  double angle;
+  /// Returns positive and negative integers.
+  ///
+  /// Positive values mean the target is to the left.
+  /// Negative values mean the target is to the right.
+  /// deviceAngle and targetAngle are both relative to North.
+  int getTargetOffsetAngle(double deviceAngle, String target) {
+    double dy = _targetPositions[target]['latitude'] - _localPosition.latitude;
+    double dx = math.cos(math.pi / 180 * _localPosition.latitude) *
+        (_targetPositions[target]['longitude'] - _localPosition.longitude);
+    double targetAngle = ((math.atan2(dy, dx) - 1.5708) * (180 / math.pi)) * -1;
+    double diff = deviceAngle - targetAngle;
+    return (diff < -180 ? 360 + diff : diff).round();
+  }
 
   Widget getFaithIcon(String filename) {
     return Container(
@@ -43,14 +59,17 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    // commenting out to test icons
-    // FlutterCompass.events.listen((double direction) {
-    //   setState(() {
-    //     _direction = direction;
-    //     angle = math.atan2(dy, dx);
-    //     print(_direction);
-    //   });
-    // });
+    Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _localPosition = position);
+
+      FlutterCompass.events.listen((double direction) {
+        int star = getTargetOffsetAngle(direction, 'star');
+        int moon = getTargetOffsetAngle(direction, 'moon');
+        print('>>> STAR: $star, MOON: $moon');
+      });
+    });
   }
 
   @override
@@ -74,21 +93,7 @@ class _MyAppState extends State<MyApp> {
                   Spacer(),
                 ],
               ),
-              Container(
-                color: Colors.white,
-                child: Transform.rotate(
-                  angle: ((_direction ?? 0) * (math.pi / 180) * -1),
-                  child: Stack(
-                    children: <Widget>[
-                      Image.asset('assets/compass.jpg'),
-                      Transform.rotate(
-                        angle: ((angle ?? 0)),
-                        child: Image.asset('assets/compass1.png'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              Container(),
             ],
           ),
         ),
