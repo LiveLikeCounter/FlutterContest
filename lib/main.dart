@@ -13,7 +13,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Position _localPosition;
   Map<String, dynamic> _targetPositions = {
     'star': {
       'latitude': 31.77765,
@@ -30,10 +29,10 @@ class _MyAppState extends State<MyApp> {
   /// Positive values mean the target is to the left.
   /// Negative values mean the target is to the right.
   /// deviceAngle and targetAngle are both relative to North.
-  int getTargetOffsetAngle(double deviceAngle, String target) {
-    double dy = _targetPositions[target]['latitude'] - _localPosition.latitude;
-    double dx = math.cos(math.pi / 180 * _localPosition.latitude) *
-        (_targetPositions[target]['longitude'] - _localPosition.longitude);
+  int getTargetOffsetAngle(double deviceAngle, Position devicePosition, String target) {
+    double dy = _targetPositions[target]['latitude'] - devicePosition.latitude;
+    double dx = math.cos(math.pi / 180 * devicePosition.latitude) *
+        (_targetPositions[target]['longitude'] - devicePosition.longitude);
     double targetAngle = ((math.atan2(dy, dx) - 1.5708) * (180 / math.pi)) * -1;
     double diff = deviceAngle - targetAngle;
     return (diff < -180 ? 360 + diff : diff).round();
@@ -62,11 +61,9 @@ class _MyAppState extends State<MyApp> {
     Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
-      setState(() => _localPosition = position);
-
       FlutterCompass.events.listen((double direction) {
-        int star = getTargetOffsetAngle(direction, 'star');
-        int moon = getTargetOffsetAngle(direction, 'moon');
+        int star = getTargetOffsetAngle(direction, position, 'star');
+        int moon = getTargetOffsetAngle(direction, position, 'moon');
         print('>>> STAR: $star, MOON: $moon');
       });
     });
