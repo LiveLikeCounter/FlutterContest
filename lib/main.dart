@@ -109,7 +109,8 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter Faith Compass'),
+          title: const Text('Prayer Direction Compass'),
+          centerTitle: true,
         ),
         body: Stack(
           fit: StackFit.expand,
