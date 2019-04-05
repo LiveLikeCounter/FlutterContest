@@ -7,22 +7,6 @@ import 'package:geolocator/geolocator.dart';
 
 void main() => runApp(MyApp());
 
-Widget getFaithIcon(String filename) {
-  return Container(
-    padding: EdgeInsets.all(12),
-    child: new SvgPicture.asset(
-      'assets/icons/$filename.svg',
-      color: Colors.white,
-      semanticsLabel: 'A red up arrow',
-      fit: BoxFit.contain,
-    ),
-    decoration: new BoxDecoration(
-      color: Colors.blueAccent,
-      shape: BoxShape.circle,
-    ),
-  );
-}
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -67,7 +51,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
     _starController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 500),
       value: 0.5,
       lowerBound: 0.0,
       upperBound: 1.0,
@@ -76,7 +60,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       });
     _moonController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 500),
       value: 0.5,
       lowerBound: 0.0,
       upperBound: 1.0,
@@ -130,6 +114,9 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         body: Stack(
           fit: StackFit.expand,
           children: <Widget>[
+            CustomPaint(
+              painter: CurvePainter(),
+            ),
             FractionallySizedBox(
               heightFactor: 0.2,
               widthFactor: 0.2,
@@ -146,5 +133,51 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+}
+
+Widget getFaithIcon(String filename) {
+  return Container(
+    padding: EdgeInsets.all(12),
+    child: new SvgPicture.asset(
+      'assets/icons/$filename.svg',
+      color: Colors.white,
+      semanticsLabel: 'A red up arrow',
+      fit: BoxFit.contain,
+    ),
+    decoration: new BoxDecoration(
+      color: Colors.blueAccent,
+      shape: BoxShape.circle,
+    ),
+  );
+}
+
+class CurvePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint();
+    paint.color = Colors.black12;
+    paint.strokeWidth = 1;
+    canvas.drawLine(
+      Offset(0, size.height * 0.4),
+      Offset(size.width, size.height * 0.4),
+      paint,
+    );
+    canvas.drawLine(
+      Offset(0, size.height * 0.6),
+      Offset(size.width, size.height * 0.6),
+      paint,
+    );
+    paint.color = Colors.blueAccent;
+    canvas.drawLine(
+      Offset(size.width / 2, 0),
+      Offset(size.width / 2, size.height),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }
