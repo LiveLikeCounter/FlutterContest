@@ -169,6 +169,7 @@ class LinePainter extends CustomPainter {
       Offset(size.width, size.height * 0.6),
       paint,
     );
+    paint.strokeWidth = 2;
     paint.color = Colors.blueAccent;
     canvas.drawLine(
       Offset(size.width / 2, 0),
