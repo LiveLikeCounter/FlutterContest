@@ -43,6 +43,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
+  # cross.svg, moon.svg, star.svg icons made by Freepik from www.flaticon.com
   assets:
     - assets/compass.jpg
     - assets/compass1.png
