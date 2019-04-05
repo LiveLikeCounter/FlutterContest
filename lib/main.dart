@@ -115,7 +115,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
           fit: StackFit.expand,
           children: <Widget>[
             CustomPaint(
-              painter: CurvePainter(),
+              painter: LinePainter(),
             ),
             FractionallySizedBox(
               heightFactor: 0.2,
@@ -152,7 +152,7 @@ Widget getFaithIcon(String filename) {
   );
 }
 
-class CurvePainter extends CustomPainter {
+class LinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
