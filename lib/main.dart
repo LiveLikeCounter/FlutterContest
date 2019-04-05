@@ -142,8 +142,8 @@ Widget getFaithIcon(String filename) {
     child: new SvgPicture.asset(
       'assets/icons/$filename.svg',
       color: Colors.white,
-      semanticsLabel: 'A red up arrow',
       fit: BoxFit.contain,
+      semanticsLabel: '$filename icon',
     ),
     decoration: new BoxDecoration(
       color: Colors.blueAccent,
