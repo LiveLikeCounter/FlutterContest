@@ -16,10 +16,12 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   AnimationController _starController;
   AnimationController _moonController;
   Map<String, dynamic> _targetPositions = {
+    // Jerusalem
     'star': {
       'latitude': 31.77765,
       'longitude': 35.23547,
     },
+    // Mecca
     'moon': {
       'latitude': 21.3891,
       'longitude': 39.8579,
