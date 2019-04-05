@@ -42,13 +42,11 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     },
   };
 
-  /// Returns positive and negative integers.
-  ///
-  /// Positive values mean the target is to the left.
-  /// Negative values mean the target is to the right.
-  /// deviceAngle and targetAngle are both relative to North.
   double _getIconAlignment(
-      double deviceAngle, Position devicePosition, String target) {
+    double deviceAngle,
+    Position devicePosition,
+    String target,
+  ) {
     double dy = _targetPositions[target]['latitude'] - devicePosition.latitude;
     double dx = math.cos(math.pi / 180 * devicePosition.latitude) *
         (_targetPositions[target]['longitude'] - devicePosition.longitude);
@@ -79,7 +77,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     _moonController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
-      value: 0.0,
+      value: 0.5,
       lowerBound: 0.0,
       upperBound: 1.0,
     )..addListener(() {
@@ -90,24 +88,40 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
       FlutterCompass.events.listen((double direction) {
-        _starController.animateTo(_getIconAlignment(direction, position, 'star'));
-        // _starController.animateTo(_getIconAlignment(direction, position, 'moon'));
+        _starController.animateTo(_getIconAlignment(
+          direction,
+          position,
+          'star',
+        ));
+        _moonController.animateTo(_getIconAlignment(
+          direction,
+          position,
+          'moon',
+        ));
       });
     });
   }
 
   Animation<Alignment> _getIconAnimation(String icon) {
-    AnimationController _controller = icon == 'star' ? _starController : _moonController;
+    AnimationController _controller;
+    double top;
+
+    if (icon == 'star') {
+      _controller = _starController;
+      top = -0.25;
+    } else {
+      _controller = _moonController;
+      top = 0.25;
+    }
+
     return Tween(
-      begin: Alignment(-1.0, 0.0),
-      end: Alignment(1.0, 0.0),
+      begin: Alignment(-1.0, top),
+      end: Alignment(1.0, top),
     ).animate(_controller);
   }
 
   @override
   Widget build(BuildContext context) {
-    Animation<Alignment> _starAnimation = _getIconAnimation('star');
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -119,45 +133,17 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             FractionallySizedBox(
               heightFactor: 0.2,
               widthFactor: 0.2,
-              alignment: _starAnimation.value,
+              alignment: _getIconAnimation('star').value,
               child: getFaithIcon('star'),
+            ),
+            FractionallySizedBox(
+              heightFactor: 0.2,
+              widthFactor: 0.2,
+              alignment: _getIconAnimation('moon').value,
+              child: getFaithIcon('moon'),
             ),
           ],
         ),
-
-        // SingleChildScrollView(
-        //   child: Column(
-        //     children: <Widget>[
-        //       // Row(
-        //       //   children: <Widget>[
-        //       //     Spacer(),
-        //       //     Expanded(child: getFaithIcon('cross')),
-        //       //     Spacer(),
-        //       //     Expanded(child: getFaithIcon('judaism')),
-        //       //     Spacer(),
-        //       //     Expanded(child: getFaithIcon('islam')),
-        //       //     Spacer(),
-        //       //   ],
-        //       // ),
-        //       // Container(
-        //       //   child: AnimatedBuilder(
-        //       //     animation: _animation,
-        //       //     builder: (context, child) {
-        //       //       return Transform.translate(
-        //       //         offset: Offset(_animation.value, 0.0),
-        //       //         child: Container(
-        //       //           height: 100.0,
-        //       //           width: 100.0,
-        //       //           color: Colors.yellow,
-        //       //         ),
-        //       //       );
-        //       //     },
-        //       //     // child: getFaithIcon('judaism'),
-        //       //   ),
-        //       // ),
-        //     ],
-        //   ),
-        // ),
       ),
     );
   }
