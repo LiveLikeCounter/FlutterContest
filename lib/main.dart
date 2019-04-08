@@ -41,13 +41,13 @@ class _MyAppState extends State<MyApp> {
   Widget getFaithIcon(String filename) {
     return Container(
       padding: EdgeInsets.all(12),
-      child: new SvgPicture.asset(
+      child: SvgPicture.asset(
         'assets/icons/$filename.svg',
         color: Colors.white,
         semanticsLabel: 'A red up arrow',
         fit: BoxFit.contain,
       ),
-      decoration: new BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.blueAccent,
         shape: BoxShape.circle,
       ),
@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter Compass'),
+          title: const Text('Flutter Faith Compass'),
         ),
         body: SingleChildScrollView(
           child: Column(
