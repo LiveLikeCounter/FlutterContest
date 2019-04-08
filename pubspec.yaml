@@ -1,5 +1,5 @@
 name: flutter_contest
-description: A Flutter Prayer Direction Contest Entry App.
+description: Flutter Contest Entry App "Prayer Direction Compass".
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -43,12 +43,11 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
+  # cross.svg, moon.svg, star.svg icons made by Freepik from www.flaticon.com
   assets:
-    - assets/compass.jpg
-    - assets/compass1.png
     - assets/icons/cross.svg
-    - assets/icons/islam.svg
-    - assets/icons/judaism.svg
+    - assets/icons/moon.svg
+    - assets/icons/star.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
